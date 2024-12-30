@@ -10,68 +10,102 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script> <!-- Add html2pdf library -->
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            font-weight: 600;
-        }
+    /* Existing styles remain unchanged */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+    h1 {
+        text-align: center;
+        color: #2c3e50;
+        font-weight: 600;
+    }
 
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        color: #34495e;
+    }
 
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #2980b9;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: #21618c;
+    }
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Adjust layout for smaller screens */
+        gap: 10px; /* Space between buttons */
+        margin-top: 20px;
+    }
+    .buttons button {
+        flex: 1; /* Make buttons equal width */
+    }
+
+    @media (max-width: 768px) {
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .form-group {
-            margin-bottom: 15px;
+            padding: 10px;
         }
         label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #34495e;
+            font-size: 14px;
         }
-
-        input{
-            width:  96% !important;
-        }
-        select, input[type="file"], input[type="text"], input[type="tel"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+        input, select {
+            font-size: 14px;
         }
         button {
-            padding: 10px 20px;
-            background-color: #2980b9;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
+            font-size: 14px;
         }
-        button:hover {
-            background-color: #21618c;
+    }
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 18px;
         }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+        .form-group {
+            margin-bottom: 10px;
         }
+        input, select {
+            font-size: 12px;
+            padding: 8px;
+        }
+        button {
+            font-size: 12px;
+            padding: 8px 15px;
+        }
+    }
+
         .quotation-table {
             width: 100%;
             margin-top: 50px;
@@ -422,7 +456,7 @@ function createSearchCriteria() {
                 <td colspan="">Mobile</td>
                 <td colspan="1" id="phoneNumberDisplay">${customerNumber}</td>
                 <td colspan="1">MODEL</td>
-                <td colspan="3" id="modelDisplay">${selectedObject.PPL}</td>
+                <td colspan="3" id="modelDisplay">${selectedObject.PPL} ${selectedObject.Trim}</td>
             </tr>
             <tr>
                 <td colspan="2"></td>
@@ -659,49 +693,6 @@ function createSearchCriteria() {
             window.pdfDocument.save('quotation.pdf');
         }
     }
-
-//     async function generatePDF() {
-//     const { jsPDF } = window.jspdf;
-//     const doc = new jsPDF("p", "mm", "a4"); // A4 size PDF in portrait mode
-
-//     const quotationTemplate = document.getElementById('quotationTemplate');
-//     quotationTemplate.style.display = 'block'; // Ensure the table is visible
-
-//     // Use html2canvas to capture the HTML content
-//     const canvas = await html2canvas(quotationTemplate, {
-//         scale: 1, // Reduce scale to make the content smaller
-//         useCORS: true
-//     });
-
-//     // Get image data from canvas
-//     const imgData = canvas.toDataURL('image/png');
-
-//     // Calculate the scaled width and height for the PDF page
-//     const imgProps = doc.getImageProperties(imgData);
-//     const pdfWidth = doc.internal.pageSize.getWidth();
-//     // const pdfWidth = 180;
-//     console.log(pdfWidth);
-    
-//     // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-//     const pdfHeight = 440;
-//     console.log(pdfHeight);
-    
-
-//     // Fit the content to a single A4 page by adjusting margins if needed
-//     const margin = 5;
-//     doc.addImage(imgData, 'PNG', margin, margin, pdfWidth - 2 * margin, pdfHeight);
-
-//     // Convert PDF to data URL and display it in the iframe
-//     const pdfDataUri = doc.output('datauristring');
-//     const pdfFrame = document.getElementById('pdfFrame');
-//     pdfFrame.src = pdfDataUri;
-//     document.getElementById('pdfViewer').style.display = 'block';
-
-//     // Store the document for downloading
-//     window.pdfDocument = doc;
-//     document.querySelector('iframe').style.display = 'none'
-//     downloadPDF()
-// }
 
 function generatePDF() {
             document.querySelector('table').style.fontSize = '11px'
